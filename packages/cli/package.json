@@ -1,0 +1,25 @@
+{
+	"name": "scaffold-cli",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/counter.umd.cjs",
+	"bin": "./dist/index.js",
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.umd.cjs"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build"
+	},
+	"devDependencies": {
+		"typescript": "^5.4.5",
+		"vite": "^5.2.10",
+		"vite-plugin-dts": "^3.9.0"
+	}
+}

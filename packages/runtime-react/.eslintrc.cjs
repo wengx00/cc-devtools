@@ -2,7 +2,7 @@
 module.exports = {
   // 设置为true表示该配置文件是根配置文件，ESLint将停止在父目录中查找其他配置文件。
   root: true,
-  extends: ['@scaffold/eslint-config'],
+  extends: ['@cc-devtools/eslint-config'],
   parserOptions: {
     tsconfigRootDir: __dirname,
   },

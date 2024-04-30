@@ -17,7 +17,7 @@
 	"packageManager": "pnpm@8.15.0",
 	"eslintConfig": {
 		"extends": [
-			"@scaffold/eslint-config"
+			"@cc-devtools/eslint-config"
 		]
 	},
 	"lint-staged": {
@@ -26,7 +26,7 @@
 		]
 	},
 	"dependencies": {
-		"@scaffold/eslint-config": "workspace:^"
+		"@cc-devtools/eslint-config": "workspace:^"
 	},
 	"devDependencies": {
 		"husky": "^9.0.11",
