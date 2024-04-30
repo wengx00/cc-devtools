@@ -1,0 +1,38 @@
+{
+	"private": "true",
+	"name": "scaffold-monorepo",
+	"version": "1.0.0",
+	"description": "A React Scaffold App",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"prepare": "husky install",
+		"fix:lockfile": "pnpm install --fix-lockfile",
+		"update:lockfile": "pnpm install --lockfile-only"
+	},
+	"engines": {
+		"node": ">=16",
+		"pnpm": ">=8.7.0 <9"
+	},
+	"packageManager": "pnpm@8.15.0",
+	"eslintConfig": {
+		"extends": [
+			"@scaffold/eslint-config"
+		]
+	},
+	"lint-staged": {
+		"*.{js,jsx,ts,tsx,mjs,cjs}": [
+			"node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+		]
+	},
+	"dependencies": {
+		"@scaffold/eslint-config": "workspace:^"
+	},
+	"devDependencies": {
+		"husky": "^9.0.11",
+		"lint-staged": "^15.2.2"
+	},
+	"keywords": [],
+	"author": "ccweng",
+	"license": "MIT"
+}
