@@ -1,3 +1,5 @@
+import { lazy, LazyExoticComponent } from 'react';
+
 export interface LazyModule {
   default: (props: any) => JSX.Element;
   [key: string]: (props: any) => JSX.Element;
@@ -6,8 +8,8 @@ export interface LazyModule {
 export interface Route {
   path: string;
   children: Route[];
-  lazyComponent?: () => Promise<LazyModule>;
-  layout?: () => Promise<LazyModule>;
+  lazyComponent?: LazyExoticComponent<any>;
+  layout?: LazyExoticComponent<any>;
 }
 
 export function progressiveInsertRoute(
@@ -19,12 +21,12 @@ export function progressiveInsertRoute(
   if (path.length === 1) {
     if (path[0] === 'page.tsx') {
       // eslint-disable-next-line no-param-reassign
-      target.lazyComponent = lazyModule;
+      target.lazyComponent = lazy(lazyModule);
       return;
     }
     if (path[0] === 'layout.tsx') {
       // eslint-disable-next-line no-param-reassign
-      target.layout = lazyModule;
+      target.layout = lazy(lazyModule);
       return;
     }
     return;
