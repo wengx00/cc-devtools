@@ -1,5 +1,3 @@
-import { lazy, LazyExoticComponent } from 'react';
-
 export interface LazyModule {
   default: (props: any) => JSX.Element;
   [key: string]: (props: any) => JSX.Element;
@@ -8,8 +6,8 @@ export interface LazyModule {
 export interface Route {
   path: string;
   children: Route[];
-  lazyComponent?: LazyExoticComponent<any> | null;
-  layout?: LazyExoticComponent<any>;
+  lazyComponent?: () => Promise<LazyModule>;
+  layout?: () => Promise<LazyModule>;
 }
 
 export function progressiveInsertRoute(
@@ -21,12 +19,12 @@ export function progressiveInsertRoute(
   if (path.length === 1) {
     if (path[0] === 'page.tsx') {
       // eslint-disable-next-line no-param-reassign
-      target.lazyComponent = lazy(lazyModule);
+      target.lazyComponent = lazyModule;
       return;
     }
     if (path[0] === 'layout.tsx') {
       // eslint-disable-next-line no-param-reassign
-      target.layout = lazy(lazyModule);
+      target.layout = lazyModule;
       return;
     }
     return;
@@ -39,7 +37,6 @@ export function progressiveInsertRoute(
     target.children.push({
       path: currentPath,
       children: [],
-      lazyComponent: null,
     });
     targetIndex = target.children.length - 1;
   }
@@ -55,7 +52,6 @@ export function getRoutes(pages: Record<string, () => Promise<any>>) {
   const routes: Route = {
     path: '/',
     children: [],
-    lazyComponent: null,
   };
   Object.entries(pages).forEach(([path, loadModule]) => {
     const currentPath = path.slice('/src/pages/'.length).split('/');

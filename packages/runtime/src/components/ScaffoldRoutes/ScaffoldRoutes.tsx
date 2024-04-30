@@ -1,33 +1,26 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode } from 'react';
 
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import { Route as RouteType } from '@/routes';
 
-function EmptyLayout() {
-  return <Outlet />;
-}
+const EmptyLayout = (): any => import('./EmptyRoute');
 
 export function routesRenderer(route: RouteType): ReactNode {
   return (
     <Route
       path={route.path}
       key={route.path}
-      Component={route.layout || EmptyLayout}
+      lazy={route.layout || EmptyLayout}
     >
       {route.lazyComponent && (
         <Route
           key={`${route.path}/`}
           path={`${route.path}/`}
-          Component={route.lazyComponent}
+          lazy={route.layout || EmptyLayout}
         />
       )}
       {route.children.map(child => routesRenderer(child))}
     </Route>
   );
-}
-
-export function ScaffoldRoutes(props: { routes: RouteType }) {
-  const routes = useMemo(() => routesRenderer(props.routes), [props.routes]);
-  return <Routes>{routes}</Routes>;
 }
