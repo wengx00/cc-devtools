@@ -31,8 +31,8 @@ export default defineConfig({
         globals: {
           react: 'React',
         },
-        sourcemap: true,
       },
     },
+    sourcemap: true,
   },
 });
