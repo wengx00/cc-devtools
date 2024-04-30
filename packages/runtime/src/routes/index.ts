@@ -1,7 +1,5 @@
 import { lazy, LazyExoticComponent } from 'react';
 
-const pages = import.meta.glob('/src/pages/**/*.tsx');
-
 export interface LazyModule {
   default: (props: any) => JSX.Element;
   [key: string]: (props: any) => JSX.Element;
@@ -48,14 +46,16 @@ export function progressiveInsertRoute(
   );
 }
 
-const routes: Route = {
-  path: '/',
-  children: [],
-  lazyComponent: null,
-};
-Object.entries(pages).forEach(([path, loadModule]) => {
-  const currentPath = path.slice('/src/pages/'.length).split('/');
-  progressiveInsertRoute(routes, currentPath, loadModule as any);
-});
+export function getRoutes(pages: Record<string, () => Promise<any>>) {
+  const routes: Route = {
+    path: '/',
+    children: [],
+    lazyComponent: null,
+  };
+  Object.entries(pages).forEach(([path, loadModule]) => {
+    const currentPath = path.slice('/src/pages/'.length).split('/');
+    progressiveInsertRoute(routes, currentPath, loadModule as any);
+  });
 
-export default routes;
+  return routes;
+}

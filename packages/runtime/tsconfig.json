@@ -24,6 +24,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "plugins", "package"],
+  "include": ["src", "plugins", "./index.ts"],
+  "exclude": ["node_modules", "dist", "build"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

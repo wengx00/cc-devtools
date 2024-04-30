@@ -1,6 +1,5 @@
 {
   "name": "@scaffold/runtime",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -28,5 +27,11 @@
     "eslint": "^8.57.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/@scaffold/runtime.js",
+      "require": "./dist/@scaffold/runtime.umd.cjs"
+    }
   }
 }

@@ -1,40 +1,36 @@
 import { resolve } from 'path';
 
-import react from '@vitejs/plugin-react';
-import { defineConfig, loadEnv } from 'vite';
-
-import pluginGenerator from './plugins/plugin-generator';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
-export default ({ mode }: any) =>
-  defineConfig({
-    plugins: [react(), pluginGenerator()],
-    base: loadEnv(mode, process.cwd()).VITE_APP_BASE || '/',
-    resolve: {
-      alias: {
-        '@/': `${resolve(__dirname, './src')}/`,
+export default defineConfig({
+  plugins: [],
+  resolve: {
+    alias: {
+      '@/': `${resolve(__dirname, './src')}/`,
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '',
       },
     },
-    server: {
-      port: Number(loadEnv(mode, process.cwd()).VITE_DEV_PORT) || 3000,
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3001',
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, ''),
+  },
+  build: {
+    lib: {
+      name: '@scaffold/runtime',
+      entry: {
+        '@scaffold/runtime': resolve(__dirname, 'index.ts'),
+      },
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom', 'react-router-dom'],
+      output: {
+        globals: {
+          react: 'React',
         },
       },
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '',
-        },
-      },
-    },
-    build: {
-      rollupOptions: {
-        output: {},
-      },
-    },
-  });
+  },
+});

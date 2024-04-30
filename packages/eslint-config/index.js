@@ -66,6 +66,7 @@ module.exports = {
     "@typescript-eslint/no-redundant-type-constituents": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/unbound-method": "off",
+    "class-methods-use-this": "off",
     "no-plusplus": ["error", { allowForLoopAfterthoughts: true }],
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/click-events-have-key-events": "off",
