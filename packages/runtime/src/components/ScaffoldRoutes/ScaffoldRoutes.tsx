@@ -16,7 +16,11 @@ export function routesRenderer(route: RouteType): ReactNode {
       Component={route.layout || EmptyLayout}
     >
       {route.lazyComponent && (
-        <Route path="/" Component={route.lazyComponent} />
+        <Route
+          key={`${route.path}/`}
+          path={`${route.path}/`}
+          Component={route.lazyComponent}
+        />
       )}
       {route.children.map(child => routesRenderer(child))}
     </Route>
