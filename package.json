@@ -1,4 +1,5 @@
 {
+	"private": "true",
 	"name": "scaffold-monorepo",
 	"version": "1.0.0",
 	"description": "A React Scaffold App",
