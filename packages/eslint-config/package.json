@@ -1,12 +1,12 @@
 {
 	"name": "@scaffold/eslint-config",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"description": "",
 	"main": "index.js",
 	"scripts": {},
 	"keywords": [],
 	"author": "ccweng",
-	"license": "ISC",
+	"license": "MIT",
 	"exports": {
 		".": {
 			"default": "./index.js"
