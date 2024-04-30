@@ -1,12 +1,20 @@
 import { ReactNode, useMemo } from 'react';
 
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { Route as RouteType } from '@/routes';
 
+function EmptyLayout() {
+  return <Outlet />;
+}
+
 export function routesRenderer(route: RouteType): ReactNode {
   return (
-    <Route path={route.path} key={route.path} Component={route.lazyComponent}>
+    <Route
+      path={route.path}
+      key={route.path}
+      Component={route.layout || EmptyLayout}
+    >
       {route.children.map(child => routesRenderer(child))}
     </Route>
   );
