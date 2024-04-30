@@ -25,7 +25,6 @@ export {
   Form,
   FormItem,
   FormLabel,
-  ScaffoldRoutes,
   routesRenderer,
   type FormProps,
   type FormItemProps,
