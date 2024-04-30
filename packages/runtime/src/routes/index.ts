@@ -8,14 +8,13 @@ export interface LazyModule {
 export interface Route {
   path: string;
   children: Route[];
-  lazyComponent: LazyExoticComponent<any> | null;
+  lazyComponent?: LazyExoticComponent<any> | null;
   layout?: LazyExoticComponent<any>;
 }
 
 export function progressiveInsertRoute(
   target: Route,
   path: string[],
-  parent: string,
   lazyModule: () => Promise<LazyModule>,
 ) {
   if (path.length === 1) {
@@ -31,7 +30,7 @@ export function progressiveInsertRoute(
     }
     return;
   }
-  const currentPath = `${parent}/${path[0]}`;
+  const currentPath = `${path[0]}`;
   let targetIndex = target.children.findIndex(
     ({ path: p }) => p === currentPath,
   );
@@ -46,7 +45,6 @@ export function progressiveInsertRoute(
   progressiveInsertRoute(
     target.children[targetIndex],
     path.slice(1),
-    currentPath,
     lazyModule,
   );
 }
@@ -59,7 +57,7 @@ export function getRoutes(pages: Record<string, () => Promise<any>>) {
   };
   Object.entries(pages).forEach(([path, loadModule]) => {
     const currentPath = path.slice('/src/pages/'.length).split('/');
-    progressiveInsertRoute(routes, currentPath, '', loadModule as any);
+    progressiveInsertRoute(routes, currentPath, loadModule as any);
   });
 
   return routes;
