@@ -1,8 +1,8 @@
 {
 	"private": "true",
-	"name": "scaffold-monorepo",
+	"name": "cc-devtools-monorepo",
 	"version": "1.0.0",
-	"description": "A React Scaffold App",
+	"description": "cc-devtools monorepo",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
@@ -32,7 +32,9 @@
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2"
 	},
-	"keywords": [],
+	"keywords": [
+		"monorepo"
+	],
 	"author": "ccweng",
 	"license": "MIT"
 }
