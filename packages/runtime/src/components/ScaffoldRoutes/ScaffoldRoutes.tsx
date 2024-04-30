@@ -1,23 +1,36 @@
-import { lazy, ReactNode, useMemo } from 'react';
+import { ReactNode, Suspense, useMemo } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
+import EmptyRoute from './EmptyRoute';
+
 import { Route as RouteType } from '@/routes';
 
-const EmptyLayout = lazy(() => import('./EmptyRoute'));
-
 export function routesRenderer(route: RouteType): ReactNode {
+  const {
+    layout: Layout,
+    lazyComponent: Page,
+    loadingComponent: Loading,
+  } = route;
   return (
     <Route
       path={route.path}
       key={route.path}
-      Component={route.layout || EmptyLayout}
+      element={
+        <Suspense fallback={Loading && <Loading />}>
+          {Layout ? <Layout /> : <EmptyRoute />}
+        </Suspense>
+      }
     >
-      {route.lazyComponent && (
+      {Page && (
         <Route
           key={`${route.path}/`}
-          path={`${route.path}/`}
-          Component={route.layout || EmptyLayout}
+          path=""
+          element={
+            <Suspense fallback={Loading && <Loading />}>
+              <Page />
+            </Suspense>
+          }
         />
       )}
       {route.children.map(child => routesRenderer(child))}
