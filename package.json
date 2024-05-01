@@ -25,12 +25,10 @@
 			"node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
 		]
 	},
-	"dependencies": {
-		"@cc-devtools/eslint-config": "workspace:^"
-	},
 	"devDependencies": {
-		"husky": "^9.0.11",
-		"lint-staged": "^15.2.2"
+		"@cc-devtools/eslint-config": "workspace:^",
+		"eslint": "^8.57.0",
+		"husky": "^9.0.11"
 	},
 	"keywords": [
 		"monorepo"
