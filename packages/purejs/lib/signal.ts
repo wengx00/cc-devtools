@@ -12,19 +12,19 @@ export function signal<T>(initialValue?: T) {
   const value: Signal<T | undefined> = { value: initialValue };
   const deps = new Set<ActiveEffect>();
 
-  const proxy = new Proxy<Signal<T>>({} as any, {
+  const proxy = new Proxy<Signal<T>>(value as any, {
     get(_, key) {
       if (key === "value") {
         if (activeEffect) {
           deps.add(activeEffect);
         }
-        return value.value;
+        return Reflect.get(value, "value");
       }
     },
     set(_, key, newValue) {
       if (key === "value") {
         if (newValue === value) return true;
-        value.value = newValue;
+        Reflect.set(value, "value", newValue);
         deps.forEach((effect) => effect());
         return true;
       }
