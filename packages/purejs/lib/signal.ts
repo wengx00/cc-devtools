@@ -1,10 +1,15 @@
+/*
+ * @Author: wengx00 wengx86@163.com
+ * @Date: 2024-05-08 11:08:39
+ * Copyright (c) 2024 by wengx00, All Rights Reserved.
+ */
 export type ActiveEffect = () => void;
 export type Signal<T> = Record<"value", T>;
 
 let activeEffect: null | ActiveEffect = null;
 
 export function signal<T>(initialValue?: T) {
-  let value: T | undefined = initialValue;
+  const value: Signal<T | undefined> = { value: initialValue };
   const deps = new Set<ActiveEffect>();
 
   const proxy = new Proxy<Signal<T>>({} as any, {
@@ -13,13 +18,13 @@ export function signal<T>(initialValue?: T) {
         if (activeEffect) {
           deps.add(activeEffect);
         }
-        return value;
+        return value.value;
       }
     },
     set(_, key, newValue) {
       if (key === "value") {
         if (newValue === value) return true;
-        value = newValue;
+        value.value = newValue;
         deps.forEach((effect) => effect());
         return true;
       }
