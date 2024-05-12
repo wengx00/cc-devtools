@@ -36,9 +36,10 @@ export function signal<T>(initialValue?: T) {
 }
 
 export function effect(fn: ActiveEffect) {
+  const legacyEffect = activeEffect;
   activeEffect = fn;
   fn();
-  activeEffect = null;
+  activeEffect = legacyEffect;
 }
 
 export function computed<T>(fn: () => T) {
