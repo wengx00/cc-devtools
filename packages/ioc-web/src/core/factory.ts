@@ -94,8 +94,8 @@ function generateRoutesMap(
 
 function logRoutes(routes: IRoutes) {
   for (const [path, handlers] of routes) {
-    Object.keys(handlers).forEach((method) => {
-      console.log(formatLog('Mapping:===>', `${method} /${path}`));
+    handlers.forEach(({ method }) => {
+      console.log(formatLog('Mapping:===>', `${method} ${path}`));
     });
   }
 }
