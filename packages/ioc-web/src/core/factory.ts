@@ -7,15 +7,15 @@ import { Constructor, NotFoundException, constants, formatLog } from '@/utils';
 
 export type IocRequest = IRequest & { query: URLSearchParams; path: string };
 
-export type IHandler = { key: string; method: string };
+export type IHandler = {
+  controller: Constructor<any>;
+  handler: (...args: any[]) => any;
+  path: string;
+  method: string;
+  key: string;
+};
 
-export type IRoutes = Map<
-  string,
-  {
-    handlers: Record<string, IHandler[] | undefined>;
-    controller: Constructor<any>;
-  }
->;
+export type IRoutes = Map<string, Map<string, IHandler>>;
 
 export type IParamsHandler = (
   info: ParameterInfo & { request: IocRequest },
@@ -27,44 +27,19 @@ function handlerDispatcher(
   iocContainer: Container,
 ) {
   const { path, method } = request;
-  const splitPath = path.split('/').filter((item) => item.trim().length > 0);
-  if (splitPath.length === 0) {
-    splitPath.unshift('');
-  }
   // 探测路由
-  const pathSegment = [];
-  let controller: Constructor<any> | null = null;
-  let handler: IHandler | null = null;
-  for (let i = 0; i < splitPath.length; i += 1) {
-    pathSegment.push(splitPath[i]);
-    const pathPrefix = pathSegment.join('/');
-    if (routes.has(pathPrefix)) {
-      const route = routes.get(pathPrefix);
-      if (!route) {
-        continue;
-      }
-      const { handlers, controller: targetController } = route;
-      const targetHandler = (
-        handlers[splitPath.slice(i + 1).join('/')] ?? []
-      ).find(({ method: targetMethod }) => targetMethod === method);
-      if (!targetHandler) {
-        // 有controller但没有handler直接退出
-        break;
-      }
-      handler = targetHandler;
-      controller = targetController;
-      break;
-    }
-  }
-  if (!controller || !handler) {
+  const targetRoute = routes.get(path);
+  const targetHandler = targetRoute?.get(method);
+  if (!targetHandler) {
     throw new NotFoundException();
   }
+  const { controller, handler, key } = targetHandler;
   const instance = iocContainer.resolve(controller);
   return {
     controller,
     instance,
-    handler: instance[handler.key] as (...args: any[]) => any,
-    key: handler.key,
+    handler,
+    key,
   };
 }
 
@@ -81,27 +56,46 @@ function generateRoutesMap(
 
   controllers.forEach((controller) => {
     iocContainer.register(controller);
-    const path: string = Reflect.getMetadata(
+    const instance = iocContainer.resolve(controller);
+    const rootPath: string = Reflect.getMetadata(
       metaType.controllerPath,
       controller,
     );
-    if (routes.has(path)) {
-      throw new Error(`Duplicate controller path: ${path}`);
-    }
-    routes.set(path, {
-      handlers:
-        Reflect.getMetadata(metaType.requestHandlers, controller.prototype) ??
-        {},
-      controller,
-    });
+    // Get Handlers
+    const handlers =
+      Reflect.getMetadata(metaType.requestHandlers, controller.prototype) ?? {};
+    Object.entries(handlers).forEach(
+      ([postPath, handlerInfos]: [string, any]) => {
+        const requestHandlers: { method: string; key: string }[] =
+          handlerInfos || [];
+        if (handlerInfos.length === 0) {
+          return;
+        }
+        const path = `${rootPath}/${postPath}`;
+        if (!routes.has(path)) {
+          routes.set(path, new Map());
+        }
+        requestHandlers.forEach(({ method, key }) => {
+          if (instance[key] instanceof Function) {
+            routes.get(path)!.set(method, {
+              method,
+              path,
+              controller,
+              handler: instance[key],
+              key,
+            });
+          }
+        });
+      },
+    );
   });
   return routes;
 }
 
 function logRoutes(routes: IRoutes) {
-  for (const [path, { handlers }] of routes) {
-    Object.keys(handlers).forEach((subpath) => {
-      console.log(formatLog('Mapping:===>', `/${path}/${subpath}`));
+  for (const [path, handlers] of routes) {
+    Object.keys(handlers).forEach((method) => {
+      console.log(formatLog('Mapping:===>', `${method} /${path}`));
     });
   }
 }
@@ -128,7 +122,7 @@ export default class IocFactory implements IApplication {
       query: urlEntity.searchParams,
       path: urlEntity.pathname,
     };
-    const { handler, key, instance } = handlerDispatcher(
+    const { handler, instance, key } = handlerDispatcher(
       iocRequest,
       routes,
       container,
