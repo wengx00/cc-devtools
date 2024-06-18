@@ -36,5 +36,8 @@
     "monorepo"
   ],
   "author": "ccweng",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@cc-devtools/ioc-web": "workspace:0.0.0-alpha.3"
+  }
 }

@@ -11,6 +11,7 @@ export default defineConfig({
       name: 'index',
       fileName: 'index',
     },
+    sourcemap: true,
   },
   resolve: {
     alias: {
