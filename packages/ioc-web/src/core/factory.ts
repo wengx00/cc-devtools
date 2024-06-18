@@ -28,7 +28,9 @@ function handlerDispatcher(
 ) {
   const { path, method } = request;
   const splitPath = path.split('/').filter((item) => item.trim().length > 0);
-  splitPath.unshift('');
+  if (splitPath.length === 0) {
+    splitPath.unshift('');
+  }
   // 探测路由
   const pathSegment = [];
   let controller: Constructor<any> | null = null;
@@ -126,7 +128,7 @@ export default class IocFactory implements IApplication {
       query: urlEntity.searchParams,
       path: urlEntity.pathname,
     };
-    const { controller, handler, key, instance } = handlerDispatcher(
+    const { handler, key, instance } = handlerDispatcher(
       iocRequest,
       routes,
       container,
@@ -134,7 +136,7 @@ export default class IocFactory implements IApplication {
 
     // 注入params
     const paramsInjectInfo: ParameterInfo[] =
-      Reflect.getMetadata(metaType.injectParam, controller, key) ?? [];
+      Reflect.getMetadata(metaType.injectParam, instance, key) ?? [];
     const paramsInjectData: any[] = [];
     for (let i = 0; i < paramsInjectInfo.length; i += 1) {
       const { index, group, id, constructor } = paramsInjectInfo[i];

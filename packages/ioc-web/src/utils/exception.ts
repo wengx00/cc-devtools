@@ -4,7 +4,7 @@ export class HttpException extends Error {
   message: string;
 
   constructor(status: number, message: string) {
-    super(message);
+    super(`HttpException: ${status} ${message}`);
     this.status = status;
     this.message = message;
   }
