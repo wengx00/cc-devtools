@@ -4,6 +4,8 @@ import { IApplication, IRequest } from './application';
 import Container from './container';
 
 import { Constructor, NotFoundException, constants } from '@/utils';
+import formatLog from '@/utils/format-log';
+import logger from '@/utils/logger';
 
 export type IocRequest = IRequest & { query: URLSearchParams; path: string };
 
@@ -27,6 +29,7 @@ function handlerDispatcher(
   iocContainer: Container,
 ) {
   const { path, method } = request;
+  logger.info(formatLog(`${method}: ${path}`));
   const splitPath = path.split('/').filter((item) => item.trim().length > 0);
   splitPath.unshift('');
   // 探测路由
@@ -94,6 +97,14 @@ function generateRoutesMap(
   return routes;
 }
 
+function logRoutes(routes: IRoutes) {
+  for (const [path, { handlers }] of routes) {
+    Object.keys(handlers).forEach((subpath) => {
+      logger.info(formatLog('Mapping:===>', `/${path}/${subpath}`));
+    });
+  }
+}
+
 export default class IocFactory implements IApplication {
   private paramsHandler: IParamsHandler[] = [];
 
@@ -104,6 +115,7 @@ export default class IocFactory implements IApplication {
   private constructor(rootModule: Constructor<any>) {
     // 生成路由和Controller的映射关系
     this.routes = generateRoutesMap(this.container, rootModule);
+    logRoutes(this.routes);
   }
 
   async handleHttpRequest(request: IRequest) {
