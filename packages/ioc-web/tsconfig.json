@@ -4,18 +4,23 @@
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "emitDeclarationOnly": true,
     "module": "ESNext",
     "lib": ["ES2020"],
     "skipLibCheck": true,
     "baseUrl": "./",
+    "outDir": "./dist/",
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
+    "declaration": true,
+    "declarationDir": "types",
+    "sourceMap": true,
 
     /* Linting */
     "strict": true,
@@ -31,5 +36,5 @@
     }
   },
   "include": ["src"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "types"]
 }
