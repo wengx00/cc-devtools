@@ -1,38 +1,40 @@
 {
-	"private": "true",
-	"name": "cc-devtools-monorepo",
-	"version": "1.0.0",
-	"description": "cc-devtools monorepo",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"prepare": "husky install",
-		"fix:lockfile": "pnpm install --fix-lockfile",
-		"update:lockfile": "pnpm install --lockfile-only"
-	},
-	"engines": {
-		"node": ">=16",
-		"pnpm": ">=8.7.0 <9"
-	},
-	"packageManager": "pnpm@8.15.0",
-	"eslintConfig": {
-		"extends": [
-			"@cc-devtools/eslint-config"
-		]
-	},
-	"lint-staged": {
-		"*.{js,jsx,ts,tsx,mjs,cjs}": [
-			"node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-		]
-	},
-	"devDependencies": {
-		"@cc-devtools/eslint-config": "workspace:^",
-		"eslint": "^8.57.0",
-		"husky": "^9.0.11"
-	},
-	"keywords": [
-		"monorepo"
-	],
-	"author": "ccweng",
-	"license": "MIT"
+  "private": "true",
+  "name": "cc-devtools-monorepo",
+  "version": "1.0.0",
+  "description": "cc-devtools monorepo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install",
+    "fix:lockfile": "pnpm install --fix-lockfile",
+    "update:lockfile": "pnpm install --lockfile-only"
+  },
+  "engines": {
+    "node": ">=16",
+    "pnpm": ">=8.7.0 <9"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "eslintConfig": {
+    "extends": [
+      "@cc-devtools/eslint-config"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+    ]
+  },
+  "devDependencies": {
+    "@cc-devtools/eslint-config": "workspace:^",
+    "@types/node": "^20.12.7",
+    "eslint": "8.56.0",
+    "husky": "^9.0.11",
+    "vite-plugin-dts": "^3.9.1"
+  },
+  "keywords": [
+    "monorepo"
+  ],
+  "author": "ccweng",
+  "license": "MIT"
 }

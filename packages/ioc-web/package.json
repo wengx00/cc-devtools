@@ -1,0 +1,27 @@
+{
+  "name": "@cc-devtools/ioc-web",
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.umd.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.2"
+  }
+}
