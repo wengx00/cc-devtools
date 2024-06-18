@@ -87,7 +87,9 @@ function generateRoutesMap(
       throw new Error(`Duplicate controller path: ${path}`);
     }
     routes.set(path, {
-      handlers: Reflect.getMetadata(metaType.requestHandlers, controller) ?? {},
+      handlers:
+        Reflect.getMetadata(metaType.requestHandlers, controller.prototype) ??
+        {},
       controller,
     });
   });

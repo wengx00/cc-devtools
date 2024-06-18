@@ -1,6 +1,6 @@
 {
   "name": "@cc-devtools/ioc-web",
-  "version": "0.0.0-alpha.7",
+  "version": "0.0.0-alpha.8",
   "type": "module",
   "files": [
     "dist",
