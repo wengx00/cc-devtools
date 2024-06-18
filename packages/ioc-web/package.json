@@ -1,6 +1,6 @@
 {
   "name": "@cc-devtools/ioc-web",
-  "version": "0.0.0",
+  "version": "0.0.0-alpha.1",
   "type": "module",
   "files": [
     "dist"
@@ -15,7 +15,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "dopublish": "pnpm build && pnpm publish --registry=https://registry.npmjs.org/ --no-git-checks --access=public"
   },
   "devDependencies": {
     "typescript": "^5.4.5",

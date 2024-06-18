@@ -28,14 +28,16 @@ function handlerDispatcher(
 ) {
   const { path, method } = request;
   const splitPath = path.split('/').filter((item) => item.trim().length > 0);
+  splitPath.unshift('');
   // 探测路由
   const pathSegment = [];
   let controller: Constructor<any> | null = null;
   let handler: IHandler | null = null;
   for (let i = 0; i < splitPath.length; i += 1) {
     pathSegment.push(splitPath[i]);
-    if (routes.has(pathSegment.join('/'))) {
-      const route = routes.get(pathSegment.join('/'))!;
+    const pathPrefix = pathSegment.join('/');
+    if (routes.has(pathPrefix)) {
+      const route = routes.get(pathPrefix);
       if (!route) {
         continue;
       }
