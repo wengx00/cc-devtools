@@ -27,9 +27,12 @@ function handlerDispatcher(
   iocContainer: Container,
 ) {
   const { path, method } = request;
+  console.log(formatLog(method, path));
   // 探测路由
   const targetRoute = routes.get(path);
   const targetHandler = targetRoute?.get(method);
+  console.log(targetRoute);
+  console.log(targetHandler);
   if (!targetHandler) {
     throw new NotFoundException();
   }
@@ -71,7 +74,13 @@ function generateRoutesMap(
         if (handlerInfos.length === 0) {
           return;
         }
-        const path = `${rootPath}/${postPath}`;
+        let path = `${rootPath}/${postPath}`;
+        if (path[path.length - 1] === '/') {
+          path = path.slice(0, -1);
+        }
+        if (path[0] !== '/') {
+          path = `/${path}`;
+        }
         if (!routes.has(path)) {
           routes.set(path, new Map());
         }
@@ -117,10 +126,19 @@ export default class IocFactory implements IApplication {
     const { routes, container, paramsHandler } = this;
     const { url } = request;
     const urlEntity = new URL(url);
+    const { searchParams } = urlEntity;
+    let { pathname } = urlEntity;
+    if (pathname[pathname.length - 1] === '/') {
+      pathname = pathname.slice(0, -1);
+    }
+    if (pathname[0] !== '/') {
+      pathname = `/${pathname}`;
+    }
     const iocRequest: IocRequest = {
       ...request,
-      query: urlEntity.searchParams,
-      path: urlEntity.pathname,
+      query: searchParams,
+      path: pathname,
+      method: request.method.toUpperCase(),
     };
     const { handler, instance, key } = handlerDispatcher(
       iocRequest,
