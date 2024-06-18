@@ -1,6 +1,6 @@
 {
   "name": "@cc-devtools/ioc-web",
-  "version": "0.0.0-alpha.6",
+  "version": "0.0.0-alpha.7",
   "type": "module",
   "files": [
     "dist",
@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && esbuild src/index.ts --platform=node --format=esm --bundle --outfile=./dist/index.js --sourcemap=external --minify --target=es2016 && esbuild src/index.ts --platform=node --format=cjs --bundle --outfile=./dist/index.cjs --sourcemap=external --minify --target=es2016",
+    "build": "tsc && esbuild src/index.ts --platform=node --format=esm --bundle --outfile=./dist/index.js --sourcemap=external --minify --target=es2020 && esbuild src/index.ts --platform=node --format=cjs --bundle --outfile=./dist/index.cjs --sourcemap=external --minify --target=es2020",
     "dopublish": "pnpm build && pnpm publish --registry=https://registry.npmjs.org/ --no-git-checks --access=public"
   },
   "devDependencies": {
@@ -24,7 +24,6 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "reflect-metadata": "^0.2.2",
-    "winston": "^3.13.0"
+    "reflect-metadata": "^0.2.2"
   }
 }
