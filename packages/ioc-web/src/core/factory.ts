@@ -5,7 +5,7 @@ import Container from './container';
 
 import { Constructor, NotFoundException, constants } from '@/utils';
 
-export type IocRequest = IRequest & { query: URLSearchParams };
+export type IocRequest = IRequest & { query: URLSearchParams; path: string };
 
 export type IHandler = { key: string; method: string };
 
@@ -109,9 +109,11 @@ export default class IocFactory implements IApplication {
   async handleHttpRequest(request: IRequest) {
     const { routes, container, paramsHandler } = this;
     const { url } = request;
+    const urlEntity = new URL(url);
     const iocRequest: IocRequest = {
       ...request,
-      query: new URL(url).searchParams,
+      query: urlEntity.searchParams,
+      path: urlEntity.pathname,
     };
     const { controller, handler, key, instance } = handlerDispatcher(
       iocRequest,

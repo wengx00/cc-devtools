@@ -17,7 +17,6 @@ export interface IFormData {
 }
 
 export interface IRequest {
-  readonly path: string;
   readonly method: string;
   readonly url: string;
   arrayBuffer(): Promise<ArrayBuffer>;
