@@ -1,5 +1,5 @@
 export default {
-  param: 'design:paramtypes',
+  paramTypes: 'design:paramtypes',
   moduleOptions: 'module:options',
   controllerPath: 'controller:path',
   requestHandlers: 'request:handlers',

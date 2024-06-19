@@ -31,8 +31,6 @@ function handlerDispatcher(
   // 探测路由
   const targetRoute = routes.get(path);
   const targetHandler = targetRoute?.get(method);
-  console.log(targetRoute);
-  console.log(targetHandler);
   if (!targetHandler) {
     throw new NotFoundException();
   }
@@ -54,8 +52,12 @@ function generateRoutesMap(
   const moduleOptions: ModuleOptions = Reflect.getMetadata(
     metaType.moduleOptions,
     rootModule,
-  ) ?? { controllers: [] };
-  const { controllers } = moduleOptions;
+  ) ?? { controllers: [], providers: [] };
+  const { controllers, providers } = moduleOptions;
+
+  providers.forEach((provider) => {
+    iocContainer.register(provider);
+  });
 
   controllers.forEach((controller) => {
     iocContainer.register(controller);

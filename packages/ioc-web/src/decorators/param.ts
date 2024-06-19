@@ -6,7 +6,7 @@ export default function Param(group: string, id?: any): ParameterDecorator {
     const params: ParameterInfo[] =
       Reflect.getMetadata(metaType.injectParam, target, propKey as any) ?? [];
     const types =
-      Reflect.getMetadata(metaType.param, target, propKey as any) ?? [];
+      Reflect.getMetadata(metaType.paramTypes, target, propKey as any) ?? [];
     params.unshift({
       index,
       id,

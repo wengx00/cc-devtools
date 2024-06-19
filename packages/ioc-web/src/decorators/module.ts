@@ -4,6 +4,7 @@ import { Constructor } from '@/utils';
 
 export interface ModuleOptions {
   controllers: Constructor<any>[];
+  providers: Constructor<any>[];
 }
 
 export default function Module(options: ModuleOptions): ClassDecorator {

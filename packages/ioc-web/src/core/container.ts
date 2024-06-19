@@ -7,7 +7,7 @@ export default class Container {
 
   register<T>(constructor: Constructor<T>): void {
     const dependencies: Constructor<any>[] =
-      Reflect.getMetadata(metaType.param, constructor) ?? [];
+      Reflect.getMetadata(metaType.paramTypes, constructor) ?? [];
     const instances = dependencies.map((dependency) =>
       this.resolve(dependency),
     );
