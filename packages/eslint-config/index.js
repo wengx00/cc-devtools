@@ -9,9 +9,12 @@ module.exports = {
   },
   /* 配置一些特定的设置，例如React的版本和import配置 */
   settings: {
-    react: {
-      version: "detect",
-    },
+    // react: {
+    //   version: "detect",
+    // },
+    // vue: {
+    //   version: "detect",
+    // },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"],
     },
@@ -28,33 +31,35 @@ module.exports = {
     },
     project: true,
     tsconfigRootDir: __dirname,
+    parser: "@typescript-eslint/parser",
   },
   /*  指定要使用的插件，这里使用了React、TypeScript、Prettier插件。 */
-  plugins: ["react", "@typescript-eslint", "prettier"],
+  plugins: ["@typescript-eslint", "prettier"],
   /*  扩展现有的规则集，这里使用了一些推荐的规则集 */
   extends: [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     // "plugin:@typescript-eslint/stylistic",
     // "plugin:@typescript-eslint/stylistic-type-checked",
     "eslint:recommended",
     "airbnb",
     "airbnb-typescript",
     "plugin:@typescript-eslint/recommended-type-checked",
-    "plugin:react/jsx-runtime",
-    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
   ],
   /* 配置具体的规则 */
   rules: {
     // react (https://github.com/jsx-eslint/eslint-plugin-react)
-    "react-hooks/rules-of-hooks": "error", // 设置为"error"，确保在组件或自定义钩子中调用Hooks。
-    "react-hooks/exhaustive-deps": "off", // 设置为"off"，不需要对useEffect和useCallback的依赖项进行详尽检查。
-    "react/function-component-definition": "off", // 强制箭头函数定义
-    "react/prop-types": "off",
-    "react/destructuring-assignment": "off",
-    "react/require-default-props": "off", // props默认值
-    "react/jsx-props-no-spreading": "off",
-    "react/button-has-type": "off",
-    "react/jsx-no-constructed-context-values": "off",
+    // "react-hooks/rules-of-hooks": "error", // 设置为"error"，确保在组件或自定义钩子中调用Hooks。
+    // "react-hooks/exhaustive-deps": "off", // 设置为"off"，不需要对useEffect和useCallback的依赖项进行详尽检查。
+    // "react/function-component-definition": "off", // 强制箭头函数定义
+    // "react/prop-types": "off",
+    // "react/destructuring-assignment": "off",
+    // "react/require-default-props": "off", // props默认值
+    // "react/jsx-props-no-spreading": "off",
+    // "react/button-has-type": "off",
+    // "react/jsx-no-constructed-context-values": "off",
+    // "react/no-array-index-key": "off",
     "@typescript-eslint/no-floating-promises": "off", // 禁用必须处理Promise
     "@typescript-eslint/no-explicit-any": "off", // 设置为"off"，允许使用any类型。
     "@typescript-eslint/restrict-template-expressions": "off",
@@ -84,7 +89,6 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "import/no-mutable-exports": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
-    "react/no-array-index-key": "off",
     "import/prefer-default-export": "off",
     "import/extensions": "off",
     // "import/no-unresolved": "error",
@@ -94,14 +98,14 @@ module.exports = {
       "error",
       {
         groups: ["builtin", "external", "internal", ["parent", "sibling"]],
-        pathGroups: [
-          {
-            pattern: "react",
-            group: "external",
-            position: "before",
-          },
-        ],
-        pathGroupsExcludedImportTypes: ["react"],
+        // pathGroups: [
+        //   {
+        //     pattern: "react",
+        //     group: "external",
+        //     position: "before",
+        //   },
+        // ],
+        // pathGroupsExcludedImportTypes: ["react"],
         "newlines-between": "always",
         alphabetize: {
           order: "asc",

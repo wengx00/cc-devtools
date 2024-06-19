@@ -17,6 +17,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && rollup --config rollup.config.js",
+    "lint": "eslint . --ext ts --report-unused-disable-directives --max-warnings 0",
     "dopublish": "pnpm build && pnpm publish --registry=https://registry.npmjs.org/ --no-git-checks --access=public"
   },
   "devDependencies": {
