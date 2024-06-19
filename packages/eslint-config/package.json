@@ -1,9 +1,11 @@
 {
   "name": "@cc-devtools/eslint-config",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "dopublish": "pnpm publish --registry=https://registry.npmjs.org/ --no-git-checks --access=public"
+  },
   "keywords": [],
   "author": "ccweng",
   "license": "MIT",
