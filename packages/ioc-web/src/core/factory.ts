@@ -100,6 +100,8 @@ function generateRoutesMap(
       },
     );
   });
+
+  console.log(iocContainer);
   return routes;
 }
 
