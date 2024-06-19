@@ -49,11 +49,9 @@ function generateRoutesMap(
   rootModule: Constructor<any>,
 ) {
   const routes: IRoutes = new Map();
-  const moduleOptions: ModuleOptions = Reflect.getMetadata(
-    metaType.moduleOptions,
-    rootModule,
-  ) ?? { controllers: [], providers: [] };
-  const { controllers, providers } = moduleOptions;
+  const moduleOptions: ModuleOptions =
+    Reflect.getMetadata(metaType.moduleOptions, rootModule) ?? {};
+  const { controllers = [], providers = [] } = moduleOptions;
 
   providers.forEach((provider) => {
     iocContainer.register(provider);
@@ -101,7 +99,6 @@ function generateRoutesMap(
     );
   });
 
-  console.log(iocContainer);
   return routes;
 }
 

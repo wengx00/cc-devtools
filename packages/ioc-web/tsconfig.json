@@ -4,7 +4,7 @@
     "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "module": "ESNext",
     "lib": ["ES2020"],
     "skipLibCheck": true,
@@ -17,9 +17,9 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": true,
     "declaration": true,
-    "declarationDir": "types",
+    "declarationDir": "./dist/types",
     "sourceMap": true,
 
     /* Linting */
