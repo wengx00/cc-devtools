@@ -51,7 +51,12 @@ function generateRoutesMap(
   const routes: IRoutes = new Map();
   const moduleOptions: ModuleOptions =
     Reflect.getMetadata(metaType.moduleOptions, rootModule) ?? {};
-  const { controllers = [], providers = [] } = moduleOptions;
+  const {
+    controllers = [],
+    providers = [],
+    base = '',
+    modules = [],
+  } = moduleOptions;
 
   providers.forEach((provider) => {
     iocContainer.register(provider);
@@ -74,7 +79,7 @@ function generateRoutesMap(
         if (handlerInfos.length === 0) {
           return;
         }
-        let path = `${rootPath}/${postPath}`;
+        let path = `${base}/${rootPath}/${postPath}`;
         if (path[path.length - 1] === '/') {
           path = path.slice(0, -1);
         }
@@ -97,6 +102,14 @@ function generateRoutesMap(
         });
       },
     );
+  });
+
+  // 子模块生成路由
+  modules.forEach((module) => {
+    const subroutes = generateRoutesMap(iocContainer, module);
+    Object.entries(subroutes).forEach(([path, handlers]) => {
+      routes.set(path, handlers);
+    });
   });
 
   return routes;
