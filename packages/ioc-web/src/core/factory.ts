@@ -109,7 +109,7 @@ function generateRoutesMap(
     const subroutes = generateRoutesMap(iocContainer, module);
 
     subroutes.forEach((handlers, path) => {
-      const fullPath = `${base}${path}`;
+      const fullPath = `/${base}${path}`;
       routes.set(fullPath, handlers);
     });
   });
