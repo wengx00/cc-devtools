@@ -107,7 +107,8 @@ function generateRoutesMap(
   // 子模块生成路由
   modules.forEach((module) => {
     const subroutes = generateRoutesMap(iocContainer, module);
-    Object.entries(subroutes).forEach(([path, handlers]) => {
+
+    subroutes.forEach((handlers, path) => {
       const fullPath = `${base}${path}`;
       routes.set(fullPath, handlers);
     });
