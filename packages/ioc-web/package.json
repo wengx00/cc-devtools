@@ -1,10 +1,17 @@
 {
   "name": "@cc-devtools/ioc-web",
-  "version": "0.0.0-beta.6",
+  "version": "0.0.0-beta.7",
   "repository": {
     "url": "https://github.com/wengx00/cc-devtools",
     "directory": "/packages/ioc-web"
   },
+  "keywords": [
+    "IoC",
+    "Node.js",
+    "Decorator",
+    "TypeScript",
+    "Cloudflare-Workers"
+  ],
   "type": "module",
   "files": [
     "dist",

@@ -1,12 +1,12 @@
 # IoC-Web
 
-> 🌟 Light-weight IoC Web Server. Base on **nothing**, just vanilla JavaScript!
+> 🌟 Light-weight IoC Web Server. Base on **nothing** but just vanilla JavaScript!
 
-You can use in Cloudflare Workers to use IoC pattern building a web service.
+You can use in Cloudflare Workers to build workers in IoC pattern.
 
 ## Example
 
-Entry `index.ts`:
+Entry file `index.ts`:
 
 ```typescript
 import {
@@ -108,7 +108,7 @@ That's all! The valid HTTP request is `GET /api/auth/user/say_hello`
 
    > `wrangler` seems like not emit decoratorMetaData while running TypeScript. (That means the ioc-web framework can't get the metadata like `design:paramtypes`)
 
-2. Change your `wrangler.toml` and set `main` to the output file built by Step 1.
+2. Change your `wrangler.toml` and set `main` to path of the output file built by Step 1.
 
 3. Run `wrangler dev`
 
