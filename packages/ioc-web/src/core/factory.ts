@@ -7,7 +7,10 @@ import { Constructor, NotFoundException, constants, formatLog } from '@/utils';
 
 export type IocRequest = IRequest & { query: URLSearchParams; path: string };
 
-export type Pipeline = (value: any) => Promise<any>;
+export type Pipeline = (
+  value: any,
+  constructor: Constructor<any>,
+) => Promise<any>;
 
 export type IHandler = {
   controller: Constructor<any>;
@@ -188,7 +191,7 @@ export default class IocFactory implements IApplication {
           targetValue = Object.fromEntries(iocRequest.query.entries());
         }
         for (const pipeline of pipelines) {
-          targetValue = await pipeline(targetValue);
+          targetValue = await pipeline(targetValue, constructor);
         }
         paramsInjectData.push(targetValue);
         continue;
@@ -205,7 +208,7 @@ export default class IocFactory implements IApplication {
             targetValue = body;
           }
           for (const pipeline of pipelines) {
-            targetValue = await pipeline(targetValue);
+            targetValue = await pipeline(targetValue, constructor);
           }
           paramsInjectData.push(targetValue);
           continue;
@@ -221,7 +224,7 @@ export default class IocFactory implements IApplication {
             targetValue = Object.fromEntries(body.entries());
           }
           for (const pipeline of pipelines) {
-            targetValue = await pipeline(targetValue);
+            targetValue = await pipeline(targetValue, constructor);
           }
           paramsInjectData.push(targetValue);
           continue;

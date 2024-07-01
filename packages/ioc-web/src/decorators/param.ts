@@ -1,11 +1,13 @@
 import metaType from './meta-type';
 import { ParameterInfo } from './utils';
 
+import { Pipeline } from '@/core/factory';
+
 export default function Param(
   group: string,
   id?: any,
   options?: {
-    pipelines?: ((x: any) => any)[];
+    pipelines?: Pipeline[];
   },
 ): ParameterDecorator {
   return (target, propKey, index) => {
