@@ -1,5 +1,3 @@
-import { nextTick } from 'process';
-
 import { ModuleOptions, ParameterInfo, metaType } from '@decorators';
 
 import { IApplication, IRequest } from './application';
@@ -146,7 +144,7 @@ export default class IocFactory implements IApplication {
     // 生成路由和Controller的映射关系
     this.routes = generateRoutesMap(this.container, rootModule);
     logRoutes(this.routes);
-    nextTick(() => {
+    setTimeout(() => {
       // 执行 OnModuleInit 生命周期
       this.container.forEach((instance) => {
         if (instance.onModuleInit instanceof Function) {
