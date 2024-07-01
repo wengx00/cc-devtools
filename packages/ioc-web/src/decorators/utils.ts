@@ -1,5 +1,4 @@
-import { Pipeline } from '@/core/factory';
-import { Constructor } from '@/utils';
+import { Constructor, Pipeline } from '@/utils';
 
 export interface ParameterInfo {
   index: number;

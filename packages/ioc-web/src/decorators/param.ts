@@ -1,7 +1,7 @@
 import metaType from './meta-type';
 import { ParameterInfo } from './utils';
 
-import { Pipeline } from '@/core/factory';
+import { Pipeline } from '@/utils';
 
 export default function Param(
   group: string,

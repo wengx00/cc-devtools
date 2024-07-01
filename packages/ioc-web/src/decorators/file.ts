@@ -1,5 +1,12 @@
 import Param from './param';
 
-export default function File(id?: string): ParameterDecorator {
-  return Param('file', id);
+import { Pipeline } from '@/utils';
+
+export default function File(
+  id?: string,
+  options?: {
+    pipelines?: Pipeline[];
+  },
+): ParameterDecorator {
+  return Param('file', id, options);
 }

@@ -26,4 +26,18 @@ export default class Container {
     }
     return instance;
   }
+
+  entries() {
+    return this.dependencies.entries();
+  }
+
+  forEach(
+    callbackfn: (
+      value: any,
+      key: Constructor<any>,
+      map: Map<Constructor<any>, any>,
+    ) => void,
+  ) {
+    return this.dependencies.forEach(callbackfn);
+  }
 }
