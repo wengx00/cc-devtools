@@ -154,7 +154,10 @@ export default class IocFactory implements IApplication {
     });
   }
 
-  async handleHttpRequest(request: IRequest, context: any = {}) {
+  async handleHttpRequest(
+    request: IRequest,
+    context: Record<string, any> = {},
+  ) {
     const { routes, container, paramsHandler } = this;
     const { url } = request;
     const urlEntity = new URL(url);
@@ -257,7 +260,11 @@ export default class IocFactory implements IApplication {
       paramsInjectData.push(undefined);
     }
     // 执行处理方法
-    return handler.apply({ ...instance, ...context }, paramsInjectData);
+    const thisObj = {
+      ...instance,
+      ...context,
+    };
+    return handler.apply(thisObj, paramsInjectData);
   }
 
   getContainer() {
