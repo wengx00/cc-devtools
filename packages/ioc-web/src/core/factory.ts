@@ -259,7 +259,7 @@ export default class IocFactory implements IApplication {
     this.paramsHandler.push(handler);
   }
 
-  addGlobalPipeline(pipeline: (v: any) => any) {
+  addGlobalPipeline(pipeline: Pipeline) {
     this.globalPipelines.push(pipeline);
   }
 
