@@ -264,6 +264,7 @@ export default class IocFactory implements IApplication {
       ...instance,
       ...context,
     };
+    console.log('thisObj: ', thisObj);
     return handler.apply(thisObj, paramsInjectData);
   }
 
