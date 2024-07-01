@@ -38,6 +38,6 @@
   "author": "ccweng",
   "license": "MIT",
   "dependencies": {
-    "@cc-devtools/ioc-web": "workspace:^"
+    "@cc-devtools/edge-ioc": "workspace:^"
   }
 }
