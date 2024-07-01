@@ -101,7 +101,7 @@ function generateRoutesMap(
               method,
               path,
               controller,
-              handler: instance[key],
+              handler: instance[key].bind(instance),
               key,
             });
           }
@@ -264,7 +264,6 @@ export default class IocFactory implements IApplication {
       ...instance,
       ...context,
     };
-    console.log('thisObj: ', thisObj);
     return handler.apply(thisObj, paramsInjectData);
   }
 
