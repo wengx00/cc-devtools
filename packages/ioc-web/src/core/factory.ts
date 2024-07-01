@@ -7,6 +7,8 @@ import { Constructor, NotFoundException, constants, formatLog } from '@/utils';
 
 export type IocRequest = IRequest & { query: URLSearchParams; path: string };
 
+export type Pipeline = (value: any) => Promise<any>;
+
 export type IHandler = {
   controller: Constructor<any>;
   handler: (...args: any[]) => any;
@@ -128,7 +130,7 @@ function logRoutes(routes: IRoutes) {
 export default class IocFactory implements IApplication {
   private paramsHandler: IParamsHandler[] = [];
 
-  private globalPipelines: ((v: any) => any)[] = [];
+  private globalPipelines: Pipeline[] = [];
 
   private routes: IRoutes;
 
@@ -185,9 +187,9 @@ export default class IocFactory implements IApplication {
         } else {
           targetValue = Object.fromEntries(iocRequest.query.entries());
         }
-        pipelines.forEach((pipeline) => {
-          targetValue = pipeline(targetValue);
-        });
+        for (const pipeline of pipelines) {
+          targetValue = await pipeline(targetValue);
+        }
         paramsInjectData.push(targetValue);
         continue;
       }
@@ -202,9 +204,9 @@ export default class IocFactory implements IApplication {
           } else {
             targetValue = body;
           }
-          pipelines.forEach((pipeline) => {
-            targetValue = pipeline(targetValue);
-          });
+          for (const pipeline of pipelines) {
+            targetValue = await pipeline(targetValue);
+          }
           paramsInjectData.push(targetValue);
           continue;
         }
@@ -217,6 +219,9 @@ export default class IocFactory implements IApplication {
             targetValue = body.get(id);
           } else {
             targetValue = Object.fromEntries(body.entries());
+          }
+          for (const pipeline of pipelines) {
+            targetValue = await pipeline(targetValue);
           }
           paramsInjectData.push(targetValue);
           continue;
