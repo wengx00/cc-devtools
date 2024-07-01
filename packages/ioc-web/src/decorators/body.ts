@@ -1,5 +1,10 @@
 import Param from './param';
 
-export default function Body(id?: string): ParameterDecorator {
-  return Param('body', id);
+export default function Body(
+  id?: string,
+  options?: {
+    pipelines?: ((x: any) => any)[];
+  },
+): ParameterDecorator {
+  return Param('body', id, options);
 }

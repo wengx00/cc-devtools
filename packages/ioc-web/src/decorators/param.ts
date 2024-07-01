@@ -1,8 +1,15 @@
 import metaType from './meta-type';
 import { ParameterInfo } from './utils';
 
-export default function Param(group: string, id?: any): ParameterDecorator {
+export default function Param(
+  group: string,
+  id?: any,
+  options?: {
+    pipelines?: ((x: any) => any)[];
+  },
+): ParameterDecorator {
   return (target, propKey, index) => {
+    const { pipelines = [] } = options ?? {};
     const params: ParameterInfo[] =
       Reflect.getMetadata(metaType.injectParam, target, propKey as any) ?? [];
     const types =
@@ -11,6 +18,7 @@ export default function Param(group: string, id?: any): ParameterDecorator {
       index,
       id,
       constructor: types[index],
+      pipelines,
       group,
     });
     Reflect.defineMetadata(

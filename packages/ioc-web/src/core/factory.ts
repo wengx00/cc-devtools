@@ -128,6 +128,8 @@ function logRoutes(routes: IRoutes) {
 export default class IocFactory implements IApplication {
   private paramsHandler: IParamsHandler[] = [];
 
+  private globalPipelines: ((v: any) => any)[] = [];
+
   private routes: IRoutes;
 
   private container = new Container();
@@ -167,26 +169,43 @@ export default class IocFactory implements IApplication {
       Reflect.getMetadata(metaType.injectParam, instance, key) ?? [];
     const paramsInjectData: any[] = [];
     for (let i = 0; i < paramsInjectInfo.length; i += 1) {
-      const { index, group, id, constructor } = paramsInjectInfo[i];
+      const {
+        index,
+        group,
+        id,
+        constructor,
+        pipelines: localPipelines,
+      } = paramsInjectInfo[i];
+      const pipelines = [...this.globalPipelines, ...localPipelines];
       if (group === constants.parameterGroup.query) {
         // 处理QS
+        let targetValue: any;
         if (id) {
-          paramsInjectData.push(iocRequest.query.get(id));
-          continue;
+          targetValue = iocRequest.query.get(id);
+        } else {
+          targetValue = Object.fromEntries(iocRequest.query.entries());
         }
-        paramsInjectData.push(Object.fromEntries(iocRequest.query.entries()));
+        pipelines.forEach((pipeline) => {
+          targetValue = pipeline(targetValue);
+        });
+        paramsInjectData.push(targetValue);
         continue;
       }
       if (group === constants.parameterGroup.body) {
         // 处理body
+        let targetValue: any;
         if (request.headers.get('content-type')?.includes('application/json')) {
           // JSON包体
           const body: Record<string, any> = await request.json();
           if (id) {
-            paramsInjectData.push(body[id]);
-            continue;
+            targetValue = body[id];
+          } else {
+            targetValue = body;
           }
-          paramsInjectData.push(body);
+          pipelines.forEach((pipeline) => {
+            targetValue = pipeline(targetValue);
+          });
+          paramsInjectData.push(targetValue);
           continue;
         }
         if (
@@ -195,10 +214,11 @@ export default class IocFactory implements IApplication {
           // form-data包体
           const body = await request.formData();
           if (id) {
-            paramsInjectData.push(body.get(id));
-            continue;
+            targetValue = body.get(id);
+          } else {
+            targetValue = Object.fromEntries(body.entries());
           }
-          paramsInjectData.push(body);
+          paramsInjectData.push(targetValue);
           continue;
         }
       }
@@ -209,6 +229,7 @@ export default class IocFactory implements IApplication {
           index,
           id,
           group,
+          pipelines,
           constructor,
         });
         if (result !== null) {
@@ -228,6 +249,10 @@ export default class IocFactory implements IApplication {
 
   addParamsHandler(handler: IParamsHandler) {
     this.paramsHandler.push(handler);
+  }
+
+  addGlobalPipeline(pipeline: (v: any) => any) {
+    this.globalPipelines.push(pipeline);
   }
 
   static create(rootModule: Constructor<any>): IocFactory {
