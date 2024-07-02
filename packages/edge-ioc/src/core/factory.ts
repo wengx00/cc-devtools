@@ -101,7 +101,7 @@ function generateRoutesMap(
               method,
               path,
               controller,
-              handler: instance[key].bind(instance),
+              handler: instance[key],
               key,
             });
           }
